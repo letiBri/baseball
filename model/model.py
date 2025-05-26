@@ -22,7 +22,7 @@ class Model:
 
     def getTeamsOfYear(self, year):
         self._allTeams = DAO.getTeamsOfYear(year)
-        self._idMapTeams = {}
+        # self._idMapTeams = {}
         for team in self._allTeams:
             self._idMapTeams[team.ID] = team
         return self._allTeams
@@ -61,6 +61,7 @@ class Model:
     def getGraphDetails(self):
         return len(self._graph.nodes), len(self._graph.edges)  # posso usare anche il metodo number_of_nodes(), number_of_edges()
 
+    # per il punto 2
     def getBestPath(self, start):
         self._bestPath = []
         self._bestScore = 0
@@ -68,7 +69,7 @@ class Model:
         parziale = [start]
         for v in vicini:
             parziale.append(v)
-            self._ricorsione(parziale)
+            self._ricorsione(parziale)  # con questa versione non ottengo l'informazione sul peso degli archi
             parziale.pop()
         return self._bestPath, self._bestScore
 
@@ -97,8 +98,7 @@ class Model:
 
     def getRandomNode(self):
         index = random.randint(0, self._graph.number_of_nodes() - 1)
-        return list(self._graph.nodes[index])
-
+        return list(self._graph.nodes)[index]
 
     def getBestPathV2(self, start):
         self._bestPath = []
@@ -130,8 +130,8 @@ class Model:
         viciniTuples.sort(key=lambda x: x[1], reverse=True)
 
         for t in viciniTuples:
-            if t[0] not in parziale and self._graph[parziale[-2]][parziale[-1]]["weight"] > t[1]:
-                parziale.append(t[0])
+            if t[0] not in parziale and self._graph[parziale[-2]][parziale[-1]]["weight"] > t[1]:  # controllo che il nodo corrente non sia in parziale e che il peso associato sia crescente
+                parziale.append(t[0])  # metto solo i nodi dentro a parziale
                 self._ricorsioneV2(parziale)
                 parziale.pop()
                 return  # non ha senso guardare tutti gli altri archi che pesano meno, ammazzo l'esplorazione dopo aver aggiunto l'arco migliore

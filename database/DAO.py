@@ -3,8 +3,6 @@ from model.team import Team
 
 
 class DAO:
-    def __init__(self):
-        pass
 
     @staticmethod
     def getAllYears():

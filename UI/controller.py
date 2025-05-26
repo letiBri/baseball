@@ -30,7 +30,7 @@ class Controller:
         # [(v0, p0), (v1, p1), ...] # lista di tuple dove il primo elemento è un nood e il secondo il peso
         viciniSorted = self._model.getNeighborsSorted(self._selectedTeam)
         self._view._txt_result.controls.clear()
-        self._view._txt_result.controls.append(ft.Text(f"Il vicinato conta {len(viciniSorted)} squadre."))
+        self._view._txt_result.controls.append(ft.Text(f"Ci sono {len(viciniSorted)} squadre adiacenti per la squadra {self._selectedTeam}"))
         for v in viciniSorted:
             self._view._txt_result.controls.append(ft.Text(f"{v[0]} -- peso: {v[1]}"))
         self._view.update_page()
@@ -59,7 +59,7 @@ class Controller:
         teams = self._model.getTeamsOfYear(self._view._ddAnno.value)
         self._view._txtOutSquadre.controls.append(ft.Text(f"Squadre presenti nell'anno {self._view._ddAnno.value} = {len(teams)} "))
         for t in teams:
-            self._view._txtOutSquadre.controls.append(ft.Text(f"{t.teamCode} ({t.name})"))
+            self._view._txtOutSquadre.controls.append(ft.Text(t))
             self._view._ddSquadra.options.append(ft.dropdown.Option(key=t.teamCode, data=t, on_click=self.readDDTeams))
         self._view.update_page()
 
