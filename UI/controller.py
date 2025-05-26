@@ -15,15 +15,40 @@ class Controller:
             self._view._txt_result.controls.append(ft.Text("Attenzione: selezionare un anno", color="red"))
             self._view.update_page()
             return
-        numNodi, numArchi = self._model.buildGraph(self._view._ddAnno.value)
+        year = self._view._ddAnno.value
+        self._model.buildGraph(int(year))
+        numNodi, numArchi = self._model.getGraphDetails()
         self._view._txt_result.controls.append(ft.Text(f"Grafo creato con {numNodi} vertici e {numArchi} archi."))
         self._view.update_page()
 
     def handleDettagli(self, e):
-        pass
+        self._view._txt_result.controls.clear()
+        if self._selectedTeam is None:  # quello selezionato dal dropdown
+            self._view._txt_result.controls.append(ft.Text("Attenzione: selezionare un team", color="red"))
+            self._view.update_page()
+            return
+        # [(v0, p0), (v1, p1), ...] # lista di tuple dove il primo elemento è un nood e il secondo il peso
+        viciniSorted = self._model.getNeighborsSorted(self._selectedTeam)
+        self._view._txt_result.controls.clear()
+        self._view._txt_result.controls.append(ft.Text(f"Il vicinato conta {len(viciniSorted)} squadre."))
+        for v in viciniSorted:
+            self._view._txt_result.controls.append(ft.Text(f"{v[0]} -- peso: {v[1]}"))
+        self._view.update_page()
 
+    # per il punto 2
     def handlePercorso(self, e):
-        pass
+        self._view._txt_result.controls.clear()
+        if self._selectedTeam is None:
+            self._view._txt_result.controls.append(ft.Text("Attenzione: selezionare un team", color="red"))
+            self._view.update_page()
+            return
+        path, score = self._model.getBestPathV2(self._selectedTeam)
+        self._view._txt_result.controls.clear()
+        self._view._txt_result.controls.append(ft.Text(f"trovato un cammino che parte da {self._selectedTeam} con somma dei pesi uguali a {score}"))
+        for v in path:
+            self._view._txt_result.controls.append(ft.Text(f"{v[0]} -- peso: {v[1]}"))
+        self._view.update_page()
+
 
     def handleDDYearSelection(self, e):
         self._view._txtOutSquadre.controls.clear()

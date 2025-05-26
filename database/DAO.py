@@ -50,7 +50,7 @@ class DAO:
         result = {}
         for row in cursor:
             # result.append((idMap[row["ID"]], row["totSalary"]))
-            result[idMap[row["ID"]]] = row["totSalary"]
+            result[idMap[row["ID"]]] = row["totSalary"]  # associamo per ogni team il suo salario
 
         cursor.close()
         conn.close()
