@@ -22,7 +22,7 @@ class Model:
 
     def getTeamsOfYear(self, year):
         self._allTeams = DAO.getTeamsOfYear(year)
-        # self._idMapTeams = {}
+        self._idMapTeams = {}
         for team in self._allTeams:
             self._idMapTeams[team.ID] = team
         return self._allTeams
